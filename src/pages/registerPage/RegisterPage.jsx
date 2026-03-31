@@ -32,7 +32,6 @@ const RegisterPage = () => {
 
     return (
         <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
-            {/* Left Side - Marketing Section */}
             <div className="flex-1 bg-teal-800 text-white p-10 flex items-center justify-center">
                 <div className="max-w-lg space-y-4">
                     <h1 className="text-4xl font-bold leading-snug">
@@ -44,7 +43,6 @@ const RegisterPage = () => {
                 </div>
             </div>
 
-            {/* Right Side - Registration Form */}
             <div className="flex-1 bg-white p-10 flex items-center justify-center">
                 <div className="w-full max-w-md">
                     <div className="flex justify-between items-center mb-8">
@@ -53,7 +51,6 @@ const RegisterPage = () => {
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Registration</h2>
 
                     <form className="space-y-4" onSubmit={handleSubmit}>
-                        {/* Username Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Username</label>
                             <input
@@ -65,7 +62,6 @@ const RegisterPage = () => {
                             />
                         </div>
 
-                        {/* Email Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Email address</label>
                             <input
@@ -77,7 +73,6 @@ const RegisterPage = () => {
                             />
                         </div>
 
-                        {/* Password Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Password</label>
                             <input
@@ -89,7 +84,6 @@ const RegisterPage = () => {
                             />
                         </div>
 
-                        {/* Confirm Password Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Repeat password</label>
                             <input

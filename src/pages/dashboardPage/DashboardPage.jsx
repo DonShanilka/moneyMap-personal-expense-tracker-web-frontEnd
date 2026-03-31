@@ -5,15 +5,23 @@ import BarChart from '../../components/dashbordComponent/barchartComponent/BarCh
 import TotalExpensesCard from '../../components/dashbordComponent/totalexpensescard/TotalExpensesCard'
 
 function DashboardPage() {
-
     return (
-        <div className="App">
-            <CategoryCard />
-            <TotalExpensesCard />
-            <PieChartComponent />
-            <BarChart />
+        <div className="space-y-6">
+            <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+            <div className="w-full">
+                <CategoryCard />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                <div className="space-y-6">
+                    <TotalExpensesCard />
+                    <PieChartComponent />
+                </div>
+                <div className="bg-white p-6 rounded-xl shadow-lg h-full">
+                    <BarChart />
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
 export default DashboardPage

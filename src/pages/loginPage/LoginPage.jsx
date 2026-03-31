@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 
 function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate(); // Initialize useNavigate
-
+    const navigate = useNavigate();
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -30,7 +29,6 @@ function LoginPage() {
 
     return (
         <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
-            {/* Left Side - Marketing Section */}
             <div className="flex-1 bg-teal-800 text-white p-10 flex items-center justify-center">
                 <div className="max-w-lg space-y-4">
                     <h1 className="text-4xl font-bold leading-snug">
@@ -42,7 +40,6 @@ function LoginPage() {
                 </div>
             </div>
 
-            {/* Right Side - Login Form */}
             <div className="flex-1 bg-white p-10 flex items-center justify-center">
                 <div className="w-full max-w-md">
                     <div className="flex justify-between items-center mb-8">

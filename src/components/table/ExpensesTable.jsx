@@ -3,43 +3,39 @@ import React, { useEffect, useState } from "react";
 import UpdateForm from "../updateExpenses/UpdateForm";
 import "../table/table.css";
 
-function ExpensesTable() {
+function ExpensesTable({ refreshTrigger }) {
   const [expenses, setExpenses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [userEmail, setuserEmail] = useState("");
+
+  const fetchExpenses = async () => {
+    try {
+      const userEmail = localStorage.getItem("userEmail");
+      if (!userEmail) {
+        console.error("User email not found in localStorage");
+        return;
+      }
+
+      const response = await axios.get(
+        `http://localhost:3000/api/getExpensesByUser/${userEmail}`
+      );
+      setExpenses(response.data);
+    } catch (err) {
+      console.error("Error fetching expenses:", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchExpenses = async () => {
-      console.log(userEmail);
-      try {
-        // Retrieve userEmail from localStorage
-        const userEmail = localStorage.getItem("userEmail");
-        if (!userEmail) {
-          console.error("User email not found in localStorage");
-          return;
-        }
-
-        // Make a GET request with userEmail as a parameter
-        const response = await axios.get(
-          `http://localhost:3000/api/getExpensesByUser/${userEmail}`
-        );
-        setExpenses(response.data);
-      } catch (err) {
-        console.error("Error fetching expenses:", err);
-      }
-    };
     fetchExpenses();
-  }, []);
+  }, [refreshTrigger]);
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this expense?")) return;
     try {
       await axios.delete(`http://localhost:3000/api/deleteExpenses/${id}`);
-      setExpenses((prevExpenses) =>
-        prevExpenses.filter((expense) => expense.id !== id)
-      );
+      fetchExpenses(); // Refresh after delete
     } catch (error) {
       console.error("Error deleting expense:", error);
     }
@@ -62,53 +58,69 @@ function ExpensesTable() {
   };
 
   return (
-    <div className="p-4 w-11/12 h-96 absolute top-32 left-8">
-      <div className="overflow-auto bg-white shadow-md rounded-lg h-96">
-        <table className="min-w-full text-sm text-left text-gray-500">
-          <thead className="bg-gray-200 sticky top-0">
+    <div className="p-0 flex flex-col h-full w-full">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-gray-700 font-semibold">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Category
               </th>
-              <th className="px-6 py-3 text-gray-700 font-semibold">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Item Name
               </th>
-              <th className="px-6 py-3 text-gray-700 font-semibold">Price</th>
-              <th className="px-6 py-3 text-gray-700 font-semibold">Date</th>
-              <th className="px-6 py-3 text-center text-gray-700 font-semibold">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Price
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Date
+              </th>
+              <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody>
-            {expenses
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.category}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.itemname}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.price}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
-                  <td className="px-6 py-4 text-center whitespace-nowrap">
-                    <button
-                      onClick={() => handleRowClick(item)}
-                      className="bg-teal-600 text-white px-3 py-1 rounded mr-2 hover:bg-teal-700"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+          <tbody className="bg-white divide-y divide-gray-100">
+            {expenses.length > 0 ? (
+              expenses
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((item) => (
+                  <tr key={item.id} className="hover:bg-teal-50/30 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {item.category}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {item.itemname}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      Rs: {item.price.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.date}
+                    </td>
+                    <td className="px-6 py-4 text-center whitespace-nowrap space-x-2">
+                      <button
+                        onClick={() => handleRowClick(item)}
+                        className="inline-flex items-center px-3 py-1 bg-teal-50 text-teal-700 text-xs font-medium rounded-md hover:bg-teal-100 transition-colors"
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="inline-flex items-center px-3 py-1 bg-red-50 text-red-700 text-xs font-medium rounded-md hover:bg-red-100 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="px-6 py-12 text-center text-gray-500 italic">
+                  No expenses found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -116,19 +128,22 @@ function ExpensesTable() {
       {isModalOpen && (
         <UpdateForm
           isOpen={isModalOpen}
-          closeModal={() => setIsModalOpen(false)}
+          closeModal={() => {
+            setIsModalOpen(false);
+            fetchExpenses();
+          }}
           expense={selectedExpense}
         />
       )}
 
       {/* Pagination Controls */}
-      <div className="flex items-center justify-between mt-4">
-        <div className="flex items-center space-x-2">
-          <span>Rows per page:</span>
+      <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+        <div className="flex items-center text-sm text-gray-600">
+          <span className="mr-2">Rows:</span>
           <select
             value={rowsPerPage}
             onChange={handleChangeRowsPerPage}
-            className="border rounded-md p-1"
+            className="border-gray-300 rounded-md py-1 px-2 focus:ring-teal-500 focus:border-teal-500"
           >
             {[5, 10, 15].map((option) => (
               <option key={option} value={option}>
@@ -137,21 +152,21 @@ function ExpensesTable() {
             ))}
           </select>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <button
             onClick={() => handleChangePage(page - 1)}
             disabled={page === 0}
-            className="px-3 py-1 bg-gray-200 rounded-md text-gray-500 hover:bg-gray-300 disabled:opacity-50"
+            className="px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Previous
           </button>
-          <span>
-            Page {page + 1} of {Math.ceil(expenses.length / rowsPerPage)}
+          <span className="text-sm font-medium text-gray-700">
+            {page + 1} / {Math.ceil(expenses.length / rowsPerPage) || 1}
           </span>
           <button
             onClick={() => handleChangePage(page + 1)}
             disabled={page >= Math.ceil(expenses.length / rowsPerPage) - 1}
-            className="px-3 py-1 bg-gray-200 rounded-md text-gray-500 hover:bg-gray-300 disabled:opacity-50"
+            className="px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Next
           </button>

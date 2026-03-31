@@ -34,16 +34,7 @@ const TotalExpensesCard = () => {
   };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-lg p-6"
-      style={{
-        position: "absolute",
-        top: "220%",
-        left: "3%",
-        height: "260%",
-        width: "40%",
-      }}
-    >
+    <div className="bg-white rounded-xl shadow-lg p-6 w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">

@@ -1,5 +1,4 @@
 .possitionBarchart {
-    position: absolute;
-    top: 540%;
-    left: 3%;
+    width: 100%;
+    height: 100%;
 }

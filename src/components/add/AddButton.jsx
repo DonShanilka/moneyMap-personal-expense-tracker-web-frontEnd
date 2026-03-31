@@ -3,7 +3,7 @@ import "../add/Button.css";
 import axios from "axios";
 import AlertPopup from "../../common/alert/AlertPopup";
 
-function AddButton() {
+function AddButton({ onRefresh }) {
   const [isVisible, setIsVisible] = useState(false);
   const [userEmail, setuserEmail] = useState("");
   const [formData, setFormData] = useState({
@@ -14,9 +14,8 @@ function AddButton() {
   });
 
   useEffect(() => {
-    console.log(localStorage.getItem);
-    let email = "";
-    if ((email = localStorage.getItem("userEmail"))) {
+    const email = localStorage.getItem("userEmail");
+    if (email) {
       setuserEmail(email);
     }
   }, []);
@@ -24,9 +23,6 @@ function AddButton() {
   // ************************************ Save Data
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // const storedEmail = localStorage.getItem('userEmail');
-    // console.log('Stored email:', storedEmail);
 
     try {
       const response = await axios.post("http://localhost:3000/api/saveData", {
@@ -36,14 +32,14 @@ function AddButton() {
         itemname: formData.itemname,
         userEmail: userEmail,
       });
-      alert("Data Save successful: " + response.data.message);
-      // navigate('/login')
+      
+      if (onRefresh) onRefresh();
+      toggleModal();
+      setFormData({ category: "", price: "", date: "", itemname: "" }); // Reset form
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during save:", error);
       alert("Save failed: " + (error.response?.data?.error || "Unknown error"));
     }
-    toggleModal();
-    // window.location.reload();
   };
 
   const toggleModal = () => {
@@ -54,11 +50,11 @@ function AddButton() {
     <div>
       <button
         onClick={toggleModal}
-        className="px-4 py-2 bg-teal-600 text-white rounded-md 
-                           hover:bg-teal-700 hover:text-white hover:border-none 
-                           transition duration-500 ease-in-out add-expenses-btn-custom-possition"
+        className="px-6 py-2.5 bg-teal-600 text-white font-semibold rounded-lg 
+                   shadow-md hover:bg-teal-700 hover:shadow-lg
+                   transition duration-300 ease-in-out flex items-center"
       >
-        + Add New Expenses
+        <span className="mr-2 text-xl">+</span> Add Expense
       </button>
 
       {/* Modal Overlay */}

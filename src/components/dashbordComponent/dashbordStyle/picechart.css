@@ -1,5 +1,5 @@
 .customPossition {
-    position: absolute;
-    left: 63%;
-    top: 500%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }

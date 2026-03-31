@@ -1,38 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-function UpdateForm({ isOpen, closeModal, expense }) { // Receive the selected expense as a prop
-
-    const id = expense.id; // Handle undefined gracefully
+function UpdateForm({ isOpen, closeModal, expense }) {
+    const [id, setId] = useState("");
     const [category, setCategory] = useState("");
     const [itemName, setItemname] = useState("");
     const [price, setPrice] = useState("");
     const [date, setDate] = useState("");
 
+    useEffect(() => {
+        if (expense) {
+            setId(expense.id || "");
+            setCategory(expense.category || "");
+            setItemname(expense.itemname || "");
+            setPrice(expense.price || "");
+            setDate(expense.date || "");
+        }
+    }, [expense]);
+
     const handleUpdate = async (event) => {
         event.preventDefault();
 
-        // Check if all required fields are filled in
         if (!id || !category || !price || !date || !itemName) {
             alert("Please fill in all fields.");
             return;
         }
 
-        console.log(id, category, price, date, itemName);
-
         try {
-            const response = await axios.put('http://localhost:3000/api/updateExpenses', {
+            await axios.put('http://localhost:3000/api/updateExpenses', {
                 id: id,
                 category: category,
                 price: price,
                 date: date,
                 itemname: itemName,
             });
-
-            console.log(response.data.message);
-            closeModal(); // Close the modal after updating
+            closeModal();
         } catch (error) {
             console.error('Error updating expense:', error.response?.data?.error || error.message);
+            alert("Update failed");
         }
     };
 
@@ -89,19 +91,19 @@ function UpdateForm({ isOpen, closeModal, expense }) { // Receive the selected e
                                 onChange={(e) => setDate(e.target.value)}
                             />
                         </label>
-                        <div className="flex justify-end mt-4">
+                        <div className="flex justify-end mt-6 space-x-3">
                             <button
                                 type="button"
                                 onClick={closeModal}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-md mr-2"
+                                className="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
                             >
-                                Close
+                                Cancel
                             </button>
                             <button
-                                onClick={handleUpdate}
-                                className="bg-blue-600 text-white px-4 py-2 rounded-md"
+                                type="submit"
+                                className="px-4 py-2 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition-colors shadow-sm"
                             >
-                                Update
+                                Update Expense
                             </button>
                         </div>
                     </form>
