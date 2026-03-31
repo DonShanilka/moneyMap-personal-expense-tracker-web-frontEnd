@@ -14,7 +14,7 @@ function UpdateForm({ isOpen, closeModal, expense }) {
             setCategory(expense.category || "");
             setItemname(expense.itemname || "");
             setPrice(expense.price || "");
-            setDate(expense.date || "");
+            setDate(expense.date ? expense.date.split('T')[0] : "");
         }
     }, [expense]);
 

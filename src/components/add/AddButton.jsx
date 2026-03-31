@@ -20,7 +20,6 @@ function AddButton({ onRefresh }) {
     }
   }, []);
 
-  // ************************************ Save Data
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -35,7 +34,7 @@ function AddButton({ onRefresh }) {
       
       if (onRefresh) onRefresh();
       toggleModal();
-      setFormData({ category: "", price: "", date: "", itemname: "" }); // Reset form
+      setFormData({ category: "", price: "", date: "", itemname: "" }); 
     } catch (error) {
       console.error("Error during save:", error);
       alert("Save failed: " + (error.response?.data?.error || "Unknown error"));
@@ -57,7 +56,6 @@ function AddButton({ onRefresh }) {
         <span className="mr-2 text-xl">+</span> Add Expense
       </button>
 
-      {/* Modal Overlay */}
       {isVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-md shadow-md w-full max-w-md">
@@ -80,7 +78,6 @@ function AddButton({ onRefresh }) {
                   <option value="Transport">Transport</option>
                   <option value="Shopping">Shopping</option>
                   <option value="Other">Other</option>
-                  {/* Add more options as needed */}
                 </select>
               </label>
               <label className="block mb-4">

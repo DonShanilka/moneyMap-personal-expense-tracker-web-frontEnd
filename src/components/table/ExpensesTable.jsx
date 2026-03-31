@@ -35,7 +35,7 @@ function ExpensesTable({ refreshTrigger }) {
     if (!window.confirm("Are you sure you want to delete this expense?")) return;
     try {
       await axios.delete(`http://localhost:3000/api/deleteExpenses/${id}`);
-      fetchExpenses(); // Refresh after delete
+      fetchExpenses(); 
     } catch (error) {
       console.error("Error deleting expense:", error);
     }
@@ -96,7 +96,7 @@ function ExpensesTable({ refreshTrigger }) {
                       Rs: {item.price.toLocaleString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {item.date}
+                      {item.date ? item.date.split('T')[0] : ''}
                     </td>
                     <td className="px-6 py-4 text-center whitespace-nowrap space-x-2">
                       <button
@@ -136,7 +136,6 @@ function ExpensesTable({ refreshTrigger }) {
         />
       )}
 
-      {/* Pagination Controls */}
       <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
         <div className="flex items-center text-sm text-gray-600">
           <span className="mr-2">Rows:</span>

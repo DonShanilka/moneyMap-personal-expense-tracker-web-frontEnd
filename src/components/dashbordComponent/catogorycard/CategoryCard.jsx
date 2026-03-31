@@ -31,7 +31,8 @@ const CategoryCard = () => {
         const response = await axios.get(`http://localhost:3000/api/getCatogoryTotal/${email}`);
         const data = response.data;
 
-        // Update categories state with fetched data
+        console.log(data)
+
         const updatedCategories = categories.map((category) => {
           const match = data.find((item) => item.category.toLowerCase() === category.category.toLowerCase());
           return match ? { ...category, amount: match.total_price } : category;

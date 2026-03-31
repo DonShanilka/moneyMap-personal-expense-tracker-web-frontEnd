@@ -12,13 +12,11 @@ function DashboardPage() {
                 <CategoryCard />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-                <div className="space-y-6">
-                    <TotalExpensesCard />
-                    <PieChartComponent />
-                </div>
-                <div className="bg-white p-6 rounded-xl shadow-lg h-full">
-                    <BarChart />
-                </div>
+                <TotalExpensesCard />
+                <PieChartComponent />
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+                <BarChart />
             </div>
         </div>
     );

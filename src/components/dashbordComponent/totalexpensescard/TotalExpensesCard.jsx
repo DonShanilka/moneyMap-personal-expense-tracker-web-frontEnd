@@ -32,7 +32,6 @@ const TotalExpensesCard = () => {
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 w-full">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
           <div className="bg-blue-100 p-1 rounded-lg">
@@ -50,7 +49,6 @@ const TotalExpensesCard = () => {
         </div>
       </div>
 
-      {/* Amount */}
       <div className="mb-0">
         <div className="flex items-baseline space-x-2">
           <span className="text-2xl font-bold text-green-600">
@@ -60,7 +58,6 @@ const TotalExpensesCard = () => {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
         <div>
           <p className="text-xs text-gray-500">Previous Month</p>

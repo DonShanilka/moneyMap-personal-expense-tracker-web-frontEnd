@@ -5,7 +5,6 @@ const ExpenseCard = () => (
         <h2 className="text-lg font-semibold mb-2">Expenses</h2>
         <p className="text-2xl font-bold">$124K</p>
         <div className="text-gray-500 text-sm">This Month</div>
-        {/* Add doughnut chart for expenses breakdown here */}
     </div>
 );
 

@@ -1,13 +1,12 @@
-// AlertPopup.jsx
 import React, { useEffect } from 'react';
 
 function AlertPopup({ message, type, onClose }) {
     useEffect(() => {
         const timer = setTimeout(() => {
-            onClose(); // Auto-close the alert after a few seconds
-        }, 3000); // Duration in milliseconds (3 seconds)
+            onClose(); 
+        }, 3000); 
 
-        return () => clearTimeout(timer); // Cleanup on unmount
+        return () => clearTimeout(timer); 
     }, [onClose]);
 
     return (

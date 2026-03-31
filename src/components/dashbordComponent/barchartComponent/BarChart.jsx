@@ -12,7 +12,6 @@ const BarChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Get userEmail from localStorage
                 const userEmail = localStorage.getItem('userEmail');
 
                 if (!userEmail) {
@@ -20,14 +19,12 @@ const BarChart = () => {
                     return;
                 }
 
-                // Pass userEmail as a query parameter
                 const response = await axios.get(`http://localhost:3000/api/getLast7DaysData/${userEmail}`, {
                     params: { userEmail },
                 });
 
                 const data = response.data;
 
-                // Extract categories and totals
                 const labels = data.map(item => item.category);
                 const totals = data.map(item => item.total);
 
