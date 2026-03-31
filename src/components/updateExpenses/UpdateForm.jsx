@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 function UpdateForm({ isOpen, closeModal, expense }) {
     const [id, setId] = useState("");
     const [category, setCategory] = useState("");

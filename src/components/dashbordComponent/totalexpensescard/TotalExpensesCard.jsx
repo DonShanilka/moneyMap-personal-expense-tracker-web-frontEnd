@@ -12,16 +12,13 @@ const TotalExpensesCard = () => {
     growthPercentage: 0,
   });
 
-  // Get the user email from localStorage
   useEffect(() => {
     const email = localStorage.getItem("userEmail");
     if (email) {
-      // setUserEmail(email);
-      fetchData(email); // Fetch the data based on the email
+      fetchData(email);
     }
   }, []);
 
-  // Function to fetch the expense data
   const fetchData = async (email) => {
     try {
       const response = await axios.get(

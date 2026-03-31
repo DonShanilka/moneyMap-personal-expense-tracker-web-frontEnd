@@ -76,10 +76,10 @@ function AddButton({ onRefresh }) {
                     Select category
                   </option>
                   <option value="Foods">Foods</option>
-                  <option value="education">Education</option>
-                  <option value="transport">Transport</option>
-                  <option value="shoping">Shopping</option>
-                  <option value="other">Other</option>
+                  <option value="Education">Education</option>
+                  <option value="Transport">Transport</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Other">Other</option>
                   {/* Add more options as needed */}
                 </select>
               </label>
